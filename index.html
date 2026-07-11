@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Happy Birthday, Press 🌙</title>
+
+<!-- Premium fonts: Cormorant Garamond (display / storybook), Manrope (body/UI), Caveat (handwritten letter) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- CURSOR GLOW + HEART TRAIL LAYER                -->
+<!-- ============================================= -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ============================================= -->
+<!-- SCROLL PROGRESS BAR                            -->
+<!-- ============================================= -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ============================================= -->
+<!-- AMBIENT BACKGROUND (stars / aurora / particles)-->
+<!-- ============================================= -->
+<div class="ambient-bg" aria-hidden="true">
+  <div class="aurora aurora-1"></div>
+  <div class="aurora aurora-2"></div>
+  <div class="aurora aurora-3"></div>
+  <canvas id="starCanvas"></canvas>
+  <div class="floating-hearts" id="floatingHearts"></div>
+  <div class="grain"></div>
+</div>
+
+<!-- ============================================= -->
+<!-- 1. CINEMATIC LOADING SCREEN                    -->
+<!-- ============================================= -->
+<section id="loadingScreen" class="loading-screen">
+  <div class="loading-inner">
+    <div class="loading-moon">
+      <span>🌙</span>
+    </div>
+    <p class="loading-line" id="loadingLine">Preparing your surprise...</p>
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill" id="loadingBarFill"></div>
+    </div>
+    <span class="loading-percent" id="loadingPercent">0%</span>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- FLOATING NAV                                   -->
+<!-- ============================================= -->
+<nav class="floating-nav" id="floatingNav">
+  <div class="nav-inner">
+    <span class="nav-brand">peela ✨</span>
+    <div class="nav-links">
+      <a href="#hero" data-nav>Home</a>
+      <a href="#about" data-nav>About Her</a>
+      <a href="#story" data-nav>Our Story</a>
+      <a href="#gallery" data-nav>Gallery</a>
+      <a href="#letter" data-nav>The Letter</a>
+      <a href="#cake" data-nav>Celebrate</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+  </div>
+</nav>
+
+<main id="mainContent" class="main-content">
+
+  <!-- ============================================= -->
+  <!-- 2. HERO SECTION                                -->
+  <!-- ============================================= -->
+  <section id="hero" class="hero">
+    <div class="hero-gradient-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-photo-wrap reveal-up">
+        <div class="hero-photo-glow"></div>
+        <img
+          src="images/her-photo.jpg"
+          alt="Prashanthi"
+          class="hero-photo"
+          id="heroPhoto"
+          onerror="this.parentElement.classList.add('no-photo')"
+        >
+        <!-- 👆 PASTE HER PHOTO HERE:
+             Option A (recommended): put her photo file inside the "images" folder
+             next to index.html, name it exactly "her-photo.jpg" (or change the
+             filename above to match yours).
+             Option B: paste a direct image URL instead, e.g.
+             src="https://example.com/her-photo.jpg" -->
+      </div>
+      <p class="hero-eyebrow reveal-up">a little universe, built for you</p>
+      <h1 class="hero-title">
+        <span class="hero-title-line">Happy Birthday</span>
+        <span class="hero-title-name" id="typedName"></span><span class="cursor-blink">|</span>
+      </h1>
+      <p class="hero-sub reveal-up delay-1">Today isn't just another day.</p>
+      <p class="hero-sub reveal-up delay-2">Today the world quietly celebrates someone incredibly special — <strong>Prashanthi.</strong></p>
+      <p class="hero-sub hero-thanks reveal-up delay-3">Thank you for existing, Peela. 🤍</p>
+      <button class="btn-primary magnetic" id="startJourneyBtn">
+        <span>Start The Journey</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 3. ABOUT HER                                   -->
+  <!-- ============================================= -->
+  <section id="about" class="section about-section">
+    <div class="section-head">
+      <span class="section-eyebrow">who you are to us</span>
+      <h2 class="section-title">Why You're So Special</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-card tilt-card">
+        <div class="about-card-glow"></div>
+        <span class="about-icon">🕊️</span>
+        <h3>My Comfort Place</h3>
+        <p>You're more than my best friend. You're the one person I can be completely unfiltered with, and still feel safe.</p>
+      </div>
+      <div class="about-card tilt-card">
+        <div class="about-card-glow"></div>
+        <span class="about-icon">🛡️</span>
+        <h3>My Safe Person</h3>
+        <p>Out of everyone, I know that whatever happens — you and Swetha will be there. That's not a small thing. That's everything.</p>
+      </div>
+      <div class="about-card tilt-card">
+        <div class="about-card-glow"></div>
+        <span class="about-icon">📣</span>
+        <h3>My Biggest Supporter</h3>
+        <p>You cheer for me louder than I cheer for myself. That kind of belief is a rare, precious gift.</p>
+      </div>
+      <div class="about-card tilt-card">
+        <div class="about-card-glow"></div>
+        <span class="about-icon">🌤️</span>
+        <h3>Ordinary Days, Unforgettable</h3>
+        <p>Somehow you turn the most boring afternoons into memories I still laugh about years later.</p>
+      </div>
+    </div>
+
+    <p class="about-closing">Thank you for always being there. Never stop smiling — the world becomes brighter because of you. 🤍</p>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 4. FRIENDSHIP STORY (storybook)                -->
+  <!-- ============================================= -->
+  <section id="story" class="section story-section">
+    <div class="section-head">
+      <span class="section-eyebrow">the origin of us</span>
+      <h2 class="section-title">Our Friendship Story</h2>
+      <p class="section-desc">Flip through the pages, Peela. Every page is us.</p>
+    </div>
+
+    <div class="storybook" id="storybook">
+      <button class="storybook-nav storybook-prev" id="storyPrev" aria-label="Previous page">‹</button>
+
+      <div class="storybook-pages" id="storybookPages">
+        <!-- Pages injected/controlled via JS active class -->
+        <article class="story-page active" data-page="1">
+          <span class="story-page-num">01</span>
+          <span class="story-illustration">🏡</span>
+          <h3>The Day We Met</h3>
+          <p>It started outside my house — of all people, it was a stranger who lived beside us who introduced you to me. Neither of us knew that one small introduction was about to become one of the most important relationships of our lives.</p>
+        </article>
+
+        <article class="story-page" data-page="2">
+          <span class="story-page-num">02</span>
+          <span class="story-illustration">💬</span>
+          <h3>One Conversation Changed Everything</h3>
+          <p>After that, it wasn't just the two of us anymore — Roshni, Roshan, Swetha and you completed the four of us. What began as one conversation turned into a whole childhood.</p>
+        </article>
+
+        <article class="story-page" data-page="3">
+          <span class="story-page-num">03</span>
+          <span class="story-illustration">😂</span>
+          <h3>The Funniest Memories</h3>
+          <p>Peela. Pesoo. Peela Rajesh. Every nickname was born out of some ridiculous inside joke, and every time someone says one of them, I still laugh exactly like I did the first time.</p>
+        </article>
+
+        <article class="story-page" data-page="4">
+          <span class="story-page-num">04</span>
+          <span class="story-illustration">🌧️</span>
+          <h3>The Tough Times</h3>
+          <p>We didn't just share the joy — we sat through the hard days too, no explanations needed. That's the difference between people who know you, and people who stay.</p>
+        </article>
+
+        <article class="story-page" data-page="5">
+          <span class="story-page-num">05</span>
+          <span class="story-illustration">🚗</span>
+          <h3>The Adventures</h3>
+          <p>Our very first "trip" together as a group wasn't far at all — it was just to your house, to eat. But it was the first place the four of us ever went as a group, and somehow that ordinary evening became a core memory none of us have ever forgotten.</p>
+        </article>
+
+        <article class="story-page" data-page="6">
+          <span class="story-page-num">06</span>
+          <span class="story-illustration">✨</span>
+          <h3>Today</h3>
+          <p>We built something strong and healthy — a friendship without the weight of expectations, just full of childhood joy and zero worries about the future. That kind of bond doesn't happen by accident.</p>
+        </article>
+
+        <article class="story-page" data-page="7">
+          <span class="story-page-num">07</span>
+          <span class="story-illustration">♾️</span>
+          <h3>The Future</h3>
+          <p>Whatever life brings next — this relationship stays. Not "until things change." Until our very last day. That's the promise this friendship was always built on.</p>
+        </article>
+      </div>
+
+      <button class="storybook-nav storybook-next" id="storyNext" aria-label="Next page">›</button>
+    </div>
+
+    <div class="storybook-dots" id="storybookDots"></div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 5. MEMORY GALLERY                              -->
+  <!-- ============================================= -->
+  <div class="masonry-gallery" id="masonryGallery">
+
+    <div class="gallery-item" data-caption="Partners in crime.">
+        <img src="images/photo1.jpeg" alt="Partners in crime" class="gallery-img">
+    </div>
+
+    <div class="gallery-item" data-caption="Core memory.">
+        <img src="images/photo2.jpeg" alt="Core memory" class="gallery-img">
+    </div>
+
+    <div class="gallery-item" data-caption="One smile. A thousand memories.">
+        <img src="images/photo3.jpeg" alt="One smile" class="gallery-img">
+    </div>
+
+    <div class="gallery-item" data-caption="The best day ever.">
+        <img src="images/photo4.jpeg" alt="Best day" class="gallery-img">
+    </div>
+
+    <div class="gallery-item" data-caption="First trip: your house, best food ever.">
+        <img src="images/photo5.jpeg" alt="First trip" class="gallery-img">
+    </div>
+
+    <div class="gallery-item" data-caption="Peela being Peela.">
+        <img src="images/photo6.jpeg" alt="Peela" class="gallery-img">
+    </div>
+
+</div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <div class="lightbox-content">
+        <div class="lightbox-placeholder" id="lightboxImg"></div>
+        <p class="lightbox-caption" id="lightboxCaption"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 6. TIMELINE                                    -->
+  <!-- ============================================= -->
+  <section id="timeline" class="section timeline-section">
+    <div class="section-head">
+      <span class="section-eyebrow">years, mapped</span>
+      <h2 class="section-title">Our Timeline</h2>
+    </div>
+
+    <div class="timeline" id="timelineList">
+      <div class="timeline-line" id="timelineLine"></div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card tilt-card">
+          <span class="timeline-year">Chapter One</span>
+          <h3>A Stranger's Introduction</h3>
+          <p>A neighbour beside my house introduces us — and just like that, our four-person world begins: you, me, Roshni, and Roshan.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card tilt-card">
+          <span class="timeline-year">Chapter Two</span>
+          <h3>Childhood, Fully Joyful</h3>
+          <p>No worries about the future. Just the four of us, building a friendship so strong and healthy it still holds today.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card tilt-card">
+          <span class="timeline-year">Chapter Three</span>
+          <h3>The First Trip</h3>
+          <p>Your house. Just to eat. The first place the group ever went together — and somehow, still one of the most fun memories we have.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card tilt-card">
+          <span class="timeline-year">Chapter Four</span>
+          <h3>The Nicknames Era</h3>
+          <p>Peela. Pesoo. Peela Rajesh. Every name a running joke, every joke a memory that never gets old.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card tilt-card">
+          <span class="timeline-year">Right Now</span>
+          <h3>Today, Your Birthday</h3>
+          <p>An entire website built out of one simple fact: you deserve to feel exactly how loved you are.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot pulse"></div>
+        <div class="timeline-card tilt-card timeline-future">
+          <span class="timeline-year">What's Next</span>
+          <h3>More Adventures Loading...</h3>
+          <p class="loading-dots-text">Still writing this chapter<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 6b. MEMORY CALENDAR                            -->
+  <!-- ============================================= -->
+  <section id="calendar" class="section calendar-section">
+    <div class="section-head">
+      <span class="section-eyebrow">dates worth remembering</span>
+      <h2 class="section-title">Memory Calendar</h2>
+      <p class="section-desc">Tap a marked day, Peela.</p>
+    </div>
+
+    <div class="calendar-wrap glass">
+      <div class="calendar-header">
+        <span class="calendar-month" id="calendarMonth">July</span>
+        <div class="calendar-header-icons"><span>📅</span></div>
+      </div>
+      <div class="calendar-weekdays">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"><!-- injected by JS --></div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 7. SECRET LETTER                                -->
+  <!-- ============================================= -->
+  <section id="letter" class="section letter-section">
+    <div class="section-head">
+      <span class="section-eyebrow">for your eyes only</span>
+      <h2 class="section-title">A Secret Letter</h2>
+      <p class="section-desc">Click the envelope, Peela.</p>
+    </div>
+
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope">
+        <div class="envelope-back"></div>
+        <div class="letter-paper" id="letterPaper">
+          <p class="letter-text">Dear Best Friend,</p>
+          <p class="letter-text">Happy Birthday.</p>
+          <p class="letter-text">Words can never fully express how much you mean to me. Thank you for being my biggest support, my happiest memory, and one of the best parts of my life.</p>
+          <p class="letter-text">I hope every dream you have comes true. I hope life gives you endless happiness. Never stop believing in yourself. You deserve every beautiful thing this world has to offer.</p>
+          <p class="letter-text">No matter where life takes us, our friendship will always remain special.</p>
+          <p class="letter-text">Happy Birthday once again.</p>
+          <p class="letter-signature">— Your Crazy Best Friend ❤️</p>
+        </div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-seal">🤍</div>
+      </div>
+      <p class="envelope-hint" id="envelopeHint">click to open</p>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 8. MUSIC SECTION                               -->
+  <!-- ============================================= -->
+  <section id="music" class="section music-section">
+    <div class="section-head">
+      <span class="section-eyebrow">our song</span>
+      <h2 class="section-title">Kurumugil, For You</h2>
+      <p class="section-desc">🎵 Add the audio file: set the <code>src</code> on the <code>&lt;audio id="bgAudio"&gt;</code> tag below to your Kurumugil (Sita Ramam) file.</p>
+    </div>
+
+    <div class="music-player glass">
+      <div class="album-art" id="albumArt">
+    <img src="images/kurumugil.jpg" alt="Kurumugil Album Art">
+    <div class="vinyl-ring"></div>
+</div>
+
+<audio id="bgAudio" src="music/Kurumugil.mp3" preload="auto" loop></audio>
+      <div class="music-info">
+        <h3>Kurumugil</h3>
+        <p>from Sita Ramam · dedicated to Press</p>
+
+        <div class="equalizer" id="equalizer">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="music-controls">
+          <button class="music-btn" id="playPauseBtn" aria-label="Play">
+            <svg id="playIcon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pauseIcon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <div class="music-progress-track" id="musicProgressTrack">
+            <div class="music-progress-fill" id="musicProgressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add your audio file's src here -->
+      <audio id="bgAudio" src="music/Kurumugil.mp3" preload="auto" loop></audio>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 8b. FRIENDSHIP RADIO FM                        -->
+  <!-- ============================================= -->
+  <section id="radio" class="section radio-section">
+    <div class="section-head">
+      <span class="section-eyebrow">now broadcasting</span>
+      <h2 class="section-title">Friendship Radio FM</h2>
+      <p class="section-desc">Turn the dial, Peela. Every station plays something for you.</p>
+    </div>
+
+    <div class="radio-wrap glass">
+      <div class="radio-top">
+        <div class="radio-freq" id="radioFreq">98.4 FM</div>
+        <div class="radio-station-name" id="radioStationName">Peela FM — Comfort Frequency</div>
+      </div>
+
+      <div class="radio-bars" id="radioBars">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <input type="range" id="radioDial" class="radio-dial" min="0" max="4" step="1" value="0">
+
+      <div class="radio-stations">
+        <button class="radio-station-btn active" data-station="0" data-freq="88.1 FM" data-name="Comfort Frequency" data-msg="This station only plays reassurance: you're doing better than you think, and you are so deeply loved.">88.1</button>
+        <button class="radio-station-btn" data-station="1" data-freq="94.7 FM" data-name="Chaos & Nicknames" data-msg="Breaking news: Peela, Pesoo and Peela Rajesh have once again been spotted causing chaos and laughter in equal measure.">94.7</button>
+        <button class="radio-station-btn" data-station="2" data-freq="101.3 FM" data-name="Late Night Talks" data-msg="This frequency is reserved for 2AM conversations, the ones that somehow fix everything, no matter what it was about.">101.3</button>
+        <button class="radio-station-btn" data-station="3" data-freq="105.9 FM" data-name="Hype Squad" data-msg="You are the loudest, proudest cheer squad I've ever had. This station exists purely to hype you up, always.">105.9</button>
+        <button class="radio-station-btn" data-station="4" data-freq="110.2 FM" data-name="Birthday Special" data-msg="Special broadcast for today only: Happy Birthday, Prashanthi. May this year hand you everything you deserve.">110.2</button>
+      </div>
+
+      <p class="radio-message" id="radioMessage">This station only plays reassurance: you're doing better than you think, and you are so deeply loved.</p>
+
+      <button class="music-btn radio-play-btn" id="radioPlayBtn" aria-label="Play radio">
+        <svg id="radioPlayIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="radioPauseIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 9. 100 REASONS                                 -->
+  <!-- ============================================= -->
+  <section id="reasons" class="section reasons-section">
+    <div class="section-head">
+      <span class="section-eyebrow">a very long list</span>
+      <h2 class="section-title">100 Reasons I Adore You</h2>
+      <p class="section-desc">Tap a card to flip it, Peela.</p>
+    </div>
+    <div class="reasons-grid" id="reasonsGrid"><!-- 100 cards injected by JS --></div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 10. COMPLIMENT MACHINE                          -->
+  <!-- ============================================= -->
+  <section id="compliments" class="section compliments-section">
+    <div class="section-head">
+      <span class="section-eyebrow">on demand</span>
+      <h2 class="section-title">The Compliment Machine</h2>
+    </div>
+
+    <div class="compliment-machine glass">
+      <div class="compliment-display" id="complimentDisplay">
+        <span class="compliment-quote">"</span>
+        <p id="complimentText">Press a button, Peela. You deserve to hear this every single day.</p>
+      </div>
+      <button class="btn-primary magnetic" id="generateComplimentBtn">
+        <span>Generate Compliment</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.36-6.36l-2.12 2.12M8.76 15.24l-2.12 2.12m12.72 0l-2.12-2.12M8.76 8.76L6.64 6.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 11. MEMORY JAR                                 -->
+  <!-- ============================================= -->
+  <section id="jar" class="section jar-section">
+    <div class="section-head">
+      <span class="section-eyebrow">shake it up</span>
+      <h2 class="section-title">The Memory Jar</h2>
+      <p class="section-desc">Click the jar to pull out a random memory.</p>
+    </div>
+
+    <div class="jar-wrap">
+      <div class="jar glass" id="jarButton">
+        <div class="jar-lid"></div>
+        <div class="jar-glow"></div>
+        <div class="jar-notes">
+          <span class="jar-note n1"></span>
+          <span class="jar-note n2"></span>
+          <span class="jar-note n3"></span>
+          <span class="jar-note n4"></span>
+          <span class="jar-note n5"></span>
+        </div>
+      </div>
+      <div class="jar-output" id="jarOutput">
+        <p>Tap the jar, Peela ↑</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 11b. INSTAGRAM PROFILE                         -->
+  <!-- ============================================= -->
+  <section id="instagram" class="section instagram-section">
+    <div class="section-head">
+      <span class="section-eyebrow">if she had a fan page</span>
+      <h2 class="section-title">@prashanthi_12_</h2>
+    </div>
+
+    <div class="ig-card glass">
+      <div class="ig-header">
+        <div class="ig-avatar">🌙</div>
+        <div class="ig-header-info">
+          <h3>prashanthi_12_</h3>
+          <p>Peela · Pesoo · Peela Rajesh</p>
+        </div>
+        <button class="btn-ghost ig-follow">Following</button>
+      </div>
+      <div class="ig-stats">
+        <div><strong id="igPosts">0</strong><span>Posts</span></div>
+        <div><strong id="igFollowers">0</strong><span>Best Friends</span></div>
+        <div><strong id="igFollowing">100</strong><span>Reasons Loved</span></div>
+      </div>
+      <p class="ig-bio">🕊️ comfort person · 🛡️ safe place · 📣 loudest supporter<br>📍 the place where every ordinary day became a memory</p>
+      <div class="ig-grid" id="igGrid">
+        <div class="ig-post"><span>🏡</span></div>
+        <div class="ig-post"><span>💬</span></div>
+        <div class="ig-post"><span>😂</span></div>
+        <div class="ig-post"><span>🌧️</span></div>
+        <div class="ig-post"><span>🚗</span></div>
+        <div class="ig-post"><span>✨</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 11c. NETFLIX EPISODES                          -->
+  <!-- ============================================= -->
+  <section id="episodes" class="section episodes-section">
+    <div class="section-head">
+      <span class="section-eyebrow">now streaming</span>
+      <h2 class="section-title">Press & Peela — The Series</h2>
+      <p class="section-desc">Season 1: Our Friendship. Hover an episode, Peela.</p>
+    </div>
+
+    <div class="episodes-row" id="episodesRow">
+      <div class="episode-card">
+        <div class="episode-thumb">🏡<span class="episode-num">E1</span></div>
+        <h4>Pilot: The Introduction</h4>
+        <p>A stranger next door changes everything.</p>
+      </div>
+      <div class="episode-card">
+        <div class="episode-thumb">💬<span class="episode-num">E2</span></div>
+        <h4>Four Becomes Family</h4>
+        <p>One conversation turns into a whole childhood.</p>
+      </div>
+      <div class="episode-card">
+        <div class="episode-thumb">😂<span class="episode-num">E3</span></div>
+        <h4>The Nickname Wars</h4>
+        <p>Peela. Pesoo. Peela Rajesh. Chaos ensues.</p>
+      </div>
+      <div class="episode-card">
+        <div class="episode-thumb">🌧️<span class="episode-num">E4</span></div>
+        <h4>The Quiet Days</h4>
+        <p>No explanations needed. Just showing up.</p>
+      </div>
+      <div class="episode-card">
+        <div class="episode-thumb">🎂<span class="episode-num">E5</span></div>
+        <h4>Season Finale: Her Day</h4>
+        <p>The one where we celebrate you. Streaming now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 12. FRIENDSHIP WRAPPED                         -->
+  <!-- ============================================= -->
+  <section id="wrapped" class="section wrapped-section">
+    <div class="wrapped-bg"></div>
+    <div class="section-head light">
+      <span class="section-eyebrow">friendship, wrapped</span>
+      <h2 class="section-title">Press &amp; Me — Wrapped</h2>
+    </div>
+
+    <div class="wrapped-grid">
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="10">0</span>
+        <p>Years Known</p>
+      </div>
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="99999">0</span>
+        <p>Messages Sent</p>
+      </div>
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="8500">0</span>
+        <p>Laughs Shared</p>
+      </div>
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="4">0</span>
+        <p>Best Friends</p>
+      </div>
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="365">0</span>
+        <p>Late Night Talks</p>
+      </div>
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="1">0</span>
+        <p>First Trip: Your House</p>
+      </div>
+      <div class="wrapped-card">
+        <span class="wrapped-number" data-count="0" data-target="3">0</span>
+        <p>Nicknames: Peela, Pesoo, Peela Rajesh</p>
+      </div>
+      <div class="wrapped-card wrapped-score">
+        <span class="wrapped-number" data-count="0" data-target="100">0</span>
+        <span class="wrapped-percent">%</span>
+        <p>Friendship Score</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 12b. FRIENDSHIP ANALYTICS                      -->
+  <!-- ============================================= -->
+  <section id="analytics" class="section analytics-section">
+    <div class="section-head">
+      <span class="section-eyebrow">the data doesn't lie</span>
+      <h2 class="section-title">Friendship Analytics</h2>
+      <p class="section-desc">A completely unbiased, scientifically dubious report.</p>
+    </div>
+
+    <div class="analytics-wrap glass">
+      <div class="analytics-bars" id="analyticsBars">
+        <div class="analytics-row" data-target="99">
+          <span class="analytics-label">Trust</span>
+          <div class="analytics-track"><div class="analytics-fill"></div></div>
+          <span class="analytics-val">0%</span>
+        </div>
+        <div class="analytics-row" data-target="97">
+          <span class="analytics-label">Fun Chaos</span>
+          <div class="analytics-track"><div class="analytics-fill"></div></div>
+          <span class="analytics-val">0%</span>
+        </div>
+        <div class="analytics-row" data-target="100">
+          <span class="analytics-label">Loyalty</span>
+          <div class="analytics-track"><div class="analytics-fill"></div></div>
+          <span class="analytics-val">0%</span>
+        </div>
+        <div class="analytics-row" data-target="95">
+          <span class="analytics-label">Emotional Support</span>
+          <div class="analytics-track"><div class="analytics-fill"></div></div>
+          <span class="analytics-val">0%</span>
+        </div>
+        <div class="analytics-row" data-target="98">
+          <span class="analytics-label">Inside Jokes / min</span>
+          <div class="analytics-track"><div class="analytics-fill"></div></div>
+          <span class="analytics-val">0%</span>
+        </div>
+      </div>
+      <div class="analytics-verdict">
+        <span class="analytics-verdict-icon">📈</span>
+        <p>Verdict: statistically irreplaceable.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 13. OPEN WHEN                                  -->
+  <!-- ============================================= -->
+  <section id="openwhen" class="section openwhen-section">
+    <div class="section-head">
+      <span class="section-eyebrow">for later</span>
+      <h2 class="section-title">Open When...</h2>
+      <p class="section-desc">Save these for when you need them.</p>
+    </div>
+
+    <div class="openwhen-grid" id="openWhenGrid">
+      <div class="openwhen-card" data-msg="Sad days don't last. Call me, message me, show up unannounced — I would rather sit in silence with you than have you sad alone. You've held me up more times than you know, so let me hold you up now.">
+        <span class="ow-icon">🌧️</span>
+        <h3>Open When You're Sad</h3>
+      </div>
+      <div class="openwhen-card" data-msg="Tell me everything! I want every detail, every laugh, every reason your face hurts from smiling. Your happiness is one of my favourite things in this world.">
+        <span class="ow-icon">🌈</span>
+        <h3>Open When You're Happy</h3>
+      </div>
+      <div class="openwhen-card" data-msg="I miss you too, Peela. Distance never actually changes anything between us — it just makes the next time we meet even louder and funnier.">
+        <span class="ow-icon">🤍</span>
+        <h3>Open When You Miss Me</h3>
+      </div>
+      <div class="openwhen-card" data-msg="Be angry. Vent it all out to me. I'm not going anywhere just because you're upset — that's literally what best friends are for.">
+        <span class="ow-icon">🔥</span>
+        <h3>Open When You're Angry</h3>
+      </div>
+      <div class="openwhen-card" data-msg="You are never actually alone — you have me, Swetha, Roshni and Roshan, whether you feel it in the moment or not. Message one of us. We'll remind you.">
+        <span class="ow-icon">🌙</span>
+        <h3>Open When You're Lonely</h3>
+      </div>
+      <div class="openwhen-card" data-msg="Whatever it is, we'll figure it out together. You're stronger than you realize, and you don't have to be brave alone.">
+        <span class="ow-icon">✨</span>
+        <h3>Open When You're Scared</h3>
+      </div>
+    </div>
+
+    <div class="ow-modal" id="owModal">
+      <div class="ow-modal-content glass">
+        <button class="ow-modal-close" id="owModalClose">&times;</button>
+        <p id="owModalText"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 13b. 3D MOON                                   -->
+  <!-- ============================================= -->
+  <section id="moon" class="section moon-section">
+    <div class="section-head light">
+      <span class="section-eyebrow">your sky, your name</span>
+      <h2 class="section-title">A Moon Named After You</h2>
+      <p class="section-desc">Click the moon, Peela.</p>
+    </div>
+
+    <div class="moon-stage">
+      <div class="moon3d" id="moon3d">
+        <div class="moon-crater c1"></div>
+        <div class="moon-crater c2"></div>
+        <div class="moon-crater c3"></div>
+        <div class="moon-crater c4"></div>
+        <div class="moon-crater c5"></div>
+        <div class="moon-glow-ring"></div>
+      </div>
+      <p class="moon-caption" id="moonCaption">🌙 Prashanthi's Moon — tap for a wish</p>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 13c. CONSTELLATION "PRESS ❤️"                  -->
+  <!-- ============================================= -->
+  <section id="constellation" class="section constellation-section">
+    <div class="section-head light">
+      <span class="section-eyebrow">written in the stars</span>
+      <h2 class="section-title">Press ❤️</h2>
+      <p class="section-desc">Press the button below to connect the stars.</p>
+    </div>
+    <div class="constellation-stage">
+      <canvas id="constellationCanvas"></canvas>
+      <button class="btn-primary magnetic" id="drawConstellationBtn">
+        <span>Reveal The Constellation</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 13d. DREAM DESTINATION MAP                     -->
+  <!-- ============================================= -->
+  <section id="dreammap" class="section dreammap-section">
+    <div class="section-head">
+      <span class="section-eyebrow">someday, together</span>
+      <h2 class="section-title">Dream Destination Map</h2>
+      <p class="section-desc">Places we're adding to the list. Tap a pin, Peela.</p>
+    </div>
+
+    <div class="dreammap-wrap glass">
+      <svg class="dreammap-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M60,180 Q150,80 260,140 T460,120 Q560,90 640,160 Q720,190 760,150" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none" stroke-dasharray="6 8"/>
+        <path d="M40,260 Q200,320 340,250 T620,280 Q700,300 770,250" stroke="rgba(255,255,255,0.10)" stroke-width="2" fill="none" stroke-dasharray="6 8"/>
+      </svg>
+      <div class="dreammap-pin" style="top:28%; left:14%;" data-place="Kashmir" data-note="Snow, chai, and long walks — the trip we keep promising ourselves.">📍<span>Kashmir</span></div>
+      <div class="dreammap-pin" style="top:55%; left:30%;" data-place="Goa" data-note="Beaches, bad karaoke, and zero adult responsibilities for one whole week.">📍<span>Goa</span></div>
+      <div class="dreammap-pin" style="top:22%; left:52%;" data-place="Japan" data-note="Cherry blossoms and getting hopelessly lost together in Tokyo.">📍<span>Japan</span></div>
+      <div class="dreammap-pin" style="top:62%; left:68%;" data-place="Bali" data-note="Waterfalls, sunsets, and finally slowing down together.">📍<span>Bali</span></div>
+      <div class="dreammap-pin" style="top:35%; left:84%;" data-place="Paris" data-note="Croissants, golden hour on the Seine, and being tourists in style.">📍<span>Paris</span></div>
+    </div>
+    <p class="dreammap-msg" id="dreammapMsg">Tap a pin to read why it made the list.</p>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 13e. FUTURE TIME CAPSULE                       -->
+  <!-- ============================================= -->
+  <section id="capsule" class="section capsule-section">
+    <div class="section-head">
+      <span class="section-eyebrow">seal it for later</span>
+      <h2 class="section-title">Future Time Capsule</h2>
+      <p class="section-desc">Write a note to your future self. It stays locked until the date you choose.</p>
+    </div>
+
+    <div class="capsule-wrap glass" id="capsuleWrap">
+      <div class="capsule-form" id="capsuleForm">
+        <textarea id="capsuleNote" placeholder="Dear future me, on my next birthday I hope..." maxlength="400"></textarea>
+        <div class="capsule-controls">
+          <label for="capsuleDate">Open on</label>
+          <input type="date" id="capsuleDate">
+          <button class="btn-primary magnetic" id="capsuleSealBtn"><span>Seal The Capsule</span></button>
+        </div>
+      </div>
+      <div class="capsule-sealed" id="capsuleSealed">
+        <span class="capsule-icon">🔒</span>
+        <p id="capsuleSealedText">A memory capsule is sealed.</p>
+        <p class="capsule-open-date" id="capsuleOpenDate"></p>
+        <button class="btn-ghost" id="capsuleResetBtn">Write a new one</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 14. VIRTUAL CAKE                               -->
+  <!-- ============================================= -->
+  <section id="cake" class="section cake-section">
+    <div class="section-head">
+      <span class="section-eyebrow">make a wish</span>
+      <h2 class="section-title">Blow Out The Candles</h2>
+      <p class="section-desc" id="cakeHint">Click each candle flame, Peela.</p>
+    </div>
+
+    <div class="cake-wrap">
+      <div class="cake" id="cake">
+        <div class="candles">
+          <div class="candle" data-candle><div class="flame"></div></div>
+          <div class="candle" data-candle><div class="flame"></div></div>
+          <div class="candle" data-candle><div class="flame"></div></div>
+        </div>
+        <div class="cake-top">
+          <div class="cake-drip"></div>
+        </div>
+        <div class="cake-middle"></div>
+        <div class="cake-bottom"></div>
+        <div class="cake-slice-cut"></div>
+      </div>
+    </div>
+    <p class="cake-message" id="cakeMessage"></p>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- 15. END CREDITS                                -->
+  <!-- ============================================= -->
+  <section id="credits" class="section credits-section">
+    <div class="credits-crawl-wrap">
+      <div class="credits-crawl" id="creditsCrawl">
+        <h2>Happy Birthday, Prashanthi</h2>
+        <p class="credits-role">Starring</p>
+        <p class="credits-name">Prashanthi <span>as</span> The Best Friend Anyone Could Ask For</p>
+        <p class="credits-role">Also Starring</p>
+        <p class="credits-name">Roshni · Roshan · Swetha</p>
+        <p class="credits-role">Directed By</p>
+        <p class="credits-name">Every Ordinary Day That Became A Memory</p>
+        <p class="credits-role">Written By</p>
+        <p class="credits-name">A Friendship That Never Needed Explanations</p>
+        <p class="credits-role">Soundtrack</p>
+        <p class="credits-name">Kurumugil — Sita Ramam</p>
+        <p class="credits-role">Special Thanks</p>
+        <p class="credits-name">Every Nickname, Every Inside Joke, Every 2AM Talk</p>
+        <p class="credits-final">Thank you for being you. Here's to everything still to come. 🤍</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================= -->
+<!-- 20 + 21. FIREWORKS + FINAL SURPRISE OVERLAY    -->
+<!-- ============================================= -->
+<div class="finale-overlay" id="finaleOverlay">
+  <canvas id="fireworksCanvas"></canvas>
+  <div class="finale-content">
+    <h2 class="finale-title">Happy Birthday</h2>
+    <h2 class="finale-name">Prashanthi</h2>
+    <div class="finale-text" id="finaleText">
+      <p>Thank you for being one of the most beautiful people in my life.</p>
+      <p>I hope every dream you dream comes true. May every year make you happier.</p>
+      <p>May your smile never fade. May your heart always remain kind.</p>
+      <p>May success always find you. May peace always stay with you.</p>
+      <p>Never stop believing in yourself. You're stronger than you realize.</p>
+      <p>You're loved more than you know.</p>
+      <p>Thank you for every memory. Thank you for every laugh. Thank you for being you.</p>
+      <p class="finale-happy">Happy Birthday.</p>
+      <p class="finale-sign">With endless love,<br>Your Crazy Best Friend ❤️</p>
+    </div>
+    <button class="btn-ghost" id="closeFinale">Close</button>
+  </div>
+</div>
+
+<!-- ============================================= -->
+<!-- HIDDEN SECRET ENDING (tap "peela ✨" 5x)        -->
+<!-- ============================================= -->
+<div class="secret-overlay" id="secretOverlay">
+  <div class="secret-content glass">
+    <span class="secret-icon">🔓</span>
+    <h2>You Found It.</h2>
+    <p>Most people won't scroll back up and tap that little "peela ✨" five times. But you did. That's exactly like you — always curious, always finding the small hidden things.</p>
+    <p>So here's the one thing that didn't fit anywhere else on this site: whatever you're doing five, ten, twenty years from now — I hope some version of this friendship is still there. Loud, ridiculous, and completely unbothered by time.</p>
+    <p class="secret-sign">This was always the real ending. 🤍</p>
+    <button class="btn-ghost" id="closeSecretBtn">Close</button>
+  </div>
+</div>
+
+<!-- ============================================= -->
+<!-- CONFETTI CANVAS (global, reused)               -->
+<!-- ============================================= -->
+<canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+<!-- ============================================= -->
+<!-- FOOTER                                         -->
+<!-- ============================================= -->
+<footer class="site-footer">
+  <div class="footer-hearts">🤍 💜 🤍</div>
+  <p>Built with love for Peela — Roshni · Roshan · Swetha · Me</p>
+  <button class="btn-ghost" id="finalSurpriseBtn">Open The Final Surprise</button>
+</footer>
+
+<!-- ============================================= -->
+<!-- BACK TO TOP + MUSIC TOGGLE FLOATING ACTIONS    -->
+<!-- ============================================= -->
+<div class="fab-stack">
+  <button class="fab" id="musicToggleFab" aria-label="Toggle music" title="Toggle music">🎵</button>
+  <button class="fab" id="backToTopFab" aria-label="Back to top" title="Back to top">↑</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
