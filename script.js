@@ -323,46 +323,64 @@ $("#envelope")?.addEventListener("click", function () {
 /* =====================================================
    8. MUSIC PLAYER
    ===================================================== */
-(function musicPlayer() {
-  const audio = $("#bgAudio");
-  const btn = $("#playPauseBtn");
-  const playIcon = $("#playIcon");
-  const pauseIcon = $("#pauseIcon");
-  const eq = $("#equalizer");
-  const art = $("#albumArt");
-  const progressFill = $("#musicProgressFill");
-  const progressTrack = $("#musicProgressTrack");
+document.addEventListener("DOMContentLoaded", () => {
 
-  function setPlayingUI(playing) {
-    playIcon.style.display = playing ? "none" : "block";
-    pauseIcon.style.display = playing ? "block" : "none";
-    eq.classList.toggle("playing", playing);
-    art.classList.toggle("playing", playing);
-  }
+    const audio = document.getElementById("bgAudio");
+    const btn = document.getElementById("playPauseBtn");
+    const playIcon = document.getElementById("playIcon");
+    const pauseIcon = document.getElementById("pauseIcon");
+    const eq = document.getElementById("equalizer");
+    const art = document.getElementById("albumArt");
+    const progressFill = document.getElementById("musicProgressFill");
+    const progressTrack = document.getElementById("musicProgressTrack");
 
-  btn?.addEventListener("click", () => {
-    if (!audio.src) {
-      alert("Add your Kurumugil audio file's URL to the <audio id=\"bgAudio\"> tag in index.html to enable playback. 🎵");
-      return;
+    function updateUI(isPlaying) {
+        playIcon.style.display = isPlaying ? "none" : "block";
+        pauseIcon.style.display = isPlaying ? "block" : "none";
+
+        if(eq) eq.classList.toggle("playing", isPlaying);
+        if(art) art.classList.toggle("playing", isPlaying);
     }
-    if (audio.paused) { audio.play(); setPlayingUI(true); }
-    else { audio.pause(); setPlayingUI(false); }
-  });
 
-  audio?.addEventListener("timeupdate", () => {
-    if (audio.duration) progressFill.style.width = (audio.currentTime / audio.duration * 100) + "%";
-  });
+    btn.addEventListener("click", async () => {
 
-  progressTrack?.addEventListener("click", (e) => {
-    if (!audio.duration) return;
-    const rect = progressTrack.getBoundingClientRect();
-    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-  });
+        try {
+            if (audio.paused) {
+                await audio.play();
+                updateUI(true);
+            } else {
+                audio.pause();
+                updateUI(false);
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Unable to play the audio.");
+        }
 
-  // global music toggle FAB mirrors the same audio element
-  $("#musicToggleFab")?.addEventListener("click", () => btn?.click());
-})();
+    });
 
+    audio.addEventListener("timeupdate", () => {
+
+        if (audio.duration) {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = percent + "%";
+        }
+
+    });
+
+    progressTrack.addEventListener("click", (e) => {
+
+        const rect = progressTrack.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+
+        audio.currentTime = percent * audio.duration;
+
+    });
+
+    audio.addEventListener("play", () => updateUI(true));
+    audio.addEventListener("pause", () => updateUI(false));
+
+});
 /* =====================================================
    9. 100 REASONS GRID
    ===================================================== */
